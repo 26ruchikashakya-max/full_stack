@@ -1,45 +1,83 @@
-//Create a website for displaying random jokes by utilizing an API.
+// Create a website where users can enter a country, and the platform will showcase a
+list of universities, including their names, websites, and corresponding
+states, all Data fetched through an API.
 
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Joke Generator</title>
+<title>University Finder</title>
 </head>
 <body>
 
-<h2>Random Joke Generator</h2>
+<h2>University Finder</h2>
 
-<p id="joke">Click the button to see a joke.</p>
+<input type="text" id="country"
+placeholder="Enter Country Name">
 
-<button onclick="getJoke()">Get Joke</button>
+<button onclick="searchUniversity()">Search</button>
+
+<ul id="result"></ul>
 
 <script>
 
-async function getJoke() {
+async function searchUniversity() {
+
+ let country =
+ document.getElementById("country").value.trim();
+
+ let result = document.getElementById("result");
+
+ result.innerHTML = "Loading...";
+
+ if(!country) {
+  result.innerHTML = "Enter a country name";
+  return;
+ }
 
  try {
 
   let response = await fetch(
-   "https://official-joke-api.appspot.com/random_joke"
+   "https://universities.hipolabs.com/search?country="
+   + encodeURIComponent(country)
   );
 
   let data = await response.json();
 
-  document.getElementById("joke").innerText =
-  data.setup + " " + data.punchline;
+  result.innerHTML = "";
+
+  data.forEach(function(university) {
+
+   let li = document.createElement("li");
+
+   let link = document.createElement("a");
+
+   link.href = university.web_pages[0] || "#";
+   link.innerText = university.name;
+   link.target = "_blank";
+
+   li.appendChild(link);
+
+   li.innerHTML +=
+   "<br>State: " +
+   (university["state-province"] || "Not Available");
+
+   result.appendChild(li);
+
+  });
+
+  if(data.length === 0) {
+   result.innerHTML = "No universities found.";
+  }
 
  }
  catch(error) {
-
-  document.getElementById("joke").innerText =
-  "Unable to fetch joke.";
-
+  result.innerHTML = "API Error";
  }
 
 }
 
 </script>
-
 </body>
 </html>
+
