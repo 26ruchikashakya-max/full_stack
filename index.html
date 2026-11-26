@@ -1,59 +1,96 @@
-//Createten cards using HTML and CSS, featuring an image at the top, along with a card
-title and description. Align these cards horizontally on the page
+//Develop
+a To-Do list with buttons for deleting, moving up, moving down, and a checkbox
+for individual tasks using HTML, CSS, and JavaScript.
+
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Ten Cards</title>
+<title>To Do List</title>
+
 <style>
-.container {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-}
-
-.card {
-    min-width: 180px;
-    border: 1px solid gray;
-    border-radius: 10px;
+body {
+    font-family: Arial;
     text-align: center;
-    padding-bottom: 10px;
 }
 
-.card img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
+li {
+    margin: 10px;
 }
 
-.card h3 {
-    color: blue;
+button {
+    margin: 3px;
+    padding: 5px;
 }
 
+.completed {
+    text-decoration: line-through;
+}
 </style>
 </head>
+
 <body>
 
-<h2>My Cards</h2>
+<h2>My To Do List</h2>
 
-<div class="container" id="cards"></div>
+<input type="text" id="task" placeholder="Enter Task">
+
+<button onclick="addTask()">Add</button>
+
+<ul id="list"></ul>
 
 <script>
-let container = document.getElementById("cards");
 
-for(let i = 1; i <= 10; i++) {
+function addTask() {
 
-    let card = document.createElement("div");
-    card.className = "card";
+    let input = document.getElementById("task");
 
-    card.innerHTML = `
-        <img src="https://picsum.photos/200?random=${i}">
-        <h3>Card ${i}</h3>
-        <p>This is card description ${i}.</p>
-    `;
+    if(input.value.trim() === "") return;
 
-    container.appendChild(card);
+    let li = document.createElement("li");
+
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+
+    let span = document.createElement("span");
+    span.innerText = input.value;
+
+    checkbox.onchange = function() {
+        span.classList.toggle("completed", checkbox.checked);
+    };
+
+    let del = document.createElement("button");
+    del.innerText = "Delete";
+
+    del.onclick = function() {
+        li.remove();
+    };
+
+    let up = document.createElement("button");
+    up.innerText = "Up";
+
+    up.onclick = function() {
+        if(li.previousElementSibling) {
+            li.parentNode.insertBefore(li, li.previousElementSibling);
+        }
+    };
+
+    let down = document.createElement("button");
+    down.innerText = "Down";
+
+    down.onclick = function() {
+        if(li.nextElementSibling) {
+            li.parentNode.insertBefore(li.nextElementSibling, li);
+        }
+    };
+
+    li.append(checkbox, span, up, down, del);
+
+    document.getElementById("list").appendChild(li);
+
+    input.value = "";
 }
+
 </script>
 
 </body>
