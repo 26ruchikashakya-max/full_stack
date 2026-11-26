@@ -1,60 +1,52 @@
-//Createten cards using HTML and CSS, featuring an image at the top, along with a card
-title and description. Align these cards horizontally on the page
+//Draw 3 concentric circle having Radius is 10px 20px and 30px and add different colors
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Ten Cards</title>
+<title>Concentric Circles</title>
 <style>
 .container {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
+    width: 60px;
+    height: 60px;
+    position: relative;
 }
 
-.card {
-    min-width: 180px;
-    border: 1px solid gray;
-    border-radius: 10px;
-    text-align: center;
-    padding-bottom: 10px;
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.card img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
+.outer {
+    width: 60px;
+    height: 60px;
+    background: red;
 }
 
-.card h3 {
-    color: blue;
+.middle {
+    width: 40px;
+    height: 40px;
+    background: yellow;
 }
 
+.inner {
+    width: 20px;
+    height: 20px;
+    background: blue;
+}
 </style>
 </head>
 <body>
 
-<h2>My Cards</h2>
+<h2>Three Concentric Circles</h2>
 
-<div class="container" id="cards"></div>
-
-<script>
-let container = document.getElementById("cards");
-
-for(let i = 1; i <= 10; i++) {
-
-    let card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-        <img src="https://picsum.photos/200?random=${i}">
-        <h3>Card ${i}</h3>
-        <p>This is card description ${i}.</p>
-    `;
-
-    container.appendChild(card);
-}
-</script>
+<div class="container">
+    <div class="circle outer"></div>
+    <div class="circle middle"></div>
+    <div class="circle inner"></div>
+</div>
 
 </body>
 </html>
