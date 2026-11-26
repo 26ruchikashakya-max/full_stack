@@ -1,0 +1,52 @@
+//Draw 3 concentric circle having Radius is 10px 20px and 30px and add different colors
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Concentric Circles</title>
+<style>
+.container {
+    width: 60px;
+    height: 60px;
+    position: relative;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.outer {
+    width: 60px;
+    height: 60px;
+    background: red;
+}
+
+.middle {
+    width: 40px;
+    height: 40px;
+    background: yellow;
+}
+
+.inner {
+    width: 20px;
+    height: 20px;
+    background: blue;
+}
+</style>
+</head>
+<body>
+
+<h2>Three Concentric Circles</h2>
+
+<div class="container">
+    <div class="circle outer"></div>
+    <div class="circle middle"></div>
+    <div class="circle inner"></div>
+</div>
+
+</body>
+</html>
