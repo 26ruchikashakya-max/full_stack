@@ -1,97 +1,57 @@
-//Develop
-a To-Do list with buttons for deleting, moving up, moving down, and a checkbox
-for individual tasks using HTML, CSS, and JavaScript.
+//●Generate a user interface for a chessboard using JavaScript,
+dynamically creating all HTML elements and applying CSS properties through
+JavaScript.
 
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>To Do List</title>
-
-<style>
-body {
-    font-family: Arial;
-    text-align: center;
-}
-
-li {
-    margin: 10px;
-}
-
-button {
-    margin: 3px;
-    padding: 5px;
-}
-
-.completed {
-    text-decoration: line-through;
-}
-</style>
+<title>Chess Board</title>
 </head>
 
 <body>
 
-<h2>My To Do List</h2>
+<h2>Chess Board</h2>
 
-<input type="text" id="task" placeholder="Enter Task">
-
-<button onclick="addTask()">Add</button>
-
-<ul id="list"></ul>
+<div id="board"></div>
 
 <script>
 
-function addTask() {
+let board = document.getElementById("board");
 
-    let input = document.getElementById("task");
+board.style.display = "grid";
+board.style.gridTemplateColumns = "repeat(8, 60px)";
+board.style.width = "480px";
 
-    if(input.value.trim() === "") return;
+let pieces = [
+"♜","♞","♝","♛","♚","♝","♞","♜",
+"♟","♟","♟","♟","♟","♟","♟","♟",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"♙","♙","♙","♙","♙","♙","♙","♙",
+"♖","♘","♗","♕","♔","♗","♘","♖"
+];
 
-    let li = document.createElement("li");
+for(let i = 0; i < 64; i++) {
 
-    let checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
+    let cell = document.createElement("div");
 
-    let span = document.createElement("span");
-    span.innerText = input.value;
+    cell.style.width = "60px";
+    cell.style.height = "60px";
+    cell.style.fontSize = "35px";
+    cell.style.textAlign = "center";
 
-    checkbox.onchange = function() {
-        span.classList.toggle("completed", checkbox.checked);
-    };
+    cell.style.background =
+    (Math.floor(i/8) + i%8) % 2 === 0
+    ? "white" : "green";
 
-    let del = document.createElement("button");
-    del.innerText = "Delete";
+    cell.innerText = pieces[i];
 
-    del.onclick = function() {
-        li.remove();
-    };
-
-    let up = document.createElement("button");
-    up.innerText = "Up";
-
-    up.onclick = function() {
-        if(li.previousElementSibling) {
-            li.parentNode.insertBefore(li, li.previousElementSibling);
-        }
-    };
-
-    let down = document.createElement("button");
-    down.innerText = "Down";
-
-    down.onclick = function() {
-        if(li.nextElementSibling) {
-            li.parentNode.insertBefore(li.nextElementSibling, li);
-        }
-    };
-
-    li.append(checkbox, span, up, down, del);
-
-    document.getElementById("list").appendChild(li);
-
-    input.value = "";
+    board.appendChild(cell);
 }
 
 </script>
-
 </body>
 </html>
