@@ -1,57 +1,95 @@
-//●Generate a user interface for a chessboard using JavaScript,
-dynamically creating all HTML elements and applying CSS properties through
-JavaScript.
+//Build a snake-ladder game using HTML, CSS, and JavaScript
 
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Chess Board</title>
+<title>Snake and Ladder</title>
+<style>
+#board {
+ display:grid;
+ grid-template-columns:repeat(10,40px);
+ width:400px;
+}
+.cell {
+ width:40px;
+ height:40px;
+ border:1px solid black;
+ text-align:center;
+ line-height:40px;
+}
+</style>
 </head>
-
 <body>
 
-<h2>Chess Board</h2>
+<h2>Snake and Ladder Game</h2>
+<h3 id="status">Player 1 Turn</h3>
 
 <div id="board"></div>
 
+<button onclick="rollDice()">Roll Dice</button>
+
 <script>
+let positions = [0,0];
+let player = 0;
+
+let jumps = {
+ 4:14, 9:31, 17:7,
+ 20:38, 28:84, 40:59,
+ 51:67, 54:34, 62:19,
+ 63:81, 64:60, 71:91,
+ 87:24, 93:73, 95:75, 99:78
+};
 
 let board = document.getElementById("board");
 
-board.style.display = "grid";
-board.style.gridTemplateColumns = "repeat(8, 60px)";
-board.style.width = "480px";
-
-let pieces = [
-"♜","♞","♝","♛","♚","♝","♞","♜",
-"♟","♟","♟","♟","♟","♟","♟","♟",
-"","","","","","","","",
-"","","","","","","","",
-"","","","","","","","",
-"","","","","","","","",
-"♙","♙","♙","♙","♙","♙","♙","♙",
-"♖","♘","♗","♕","♔","♗","♘","♖"
-];
-
-for(let i = 0; i < 64; i++) {
-
-    let cell = document.createElement("div");
-
-    cell.style.width = "60px";
-    cell.style.height = "60px";
-    cell.style.fontSize = "35px";
-    cell.style.textAlign = "center";
-
-    cell.style.background =
-    (Math.floor(i/8) + i%8) % 2 === 0
-    ? "white" : "green";
-
-    cell.innerText = pieces[i];
-
-    board.appendChild(cell);
+for(let i=100; i>=1; i--) {
+ let cell = document.createElement("div");
+ cell.className = "cell";
+ cell.id = "c"+i;
+ cell.innerText = i;
+ board.appendChild(cell);
 }
 
+function display() {
+ for(let i=1; i<=100; i++) {
+  document.getElementById("c"+i).innerText = i;
+ }
+
+ positions.forEach((p,i)=>{
+  if(p>0) {
+   document.getElementById("c"+p).innerText +=
+   i===0 ? " 🔴" : " 🔵";
+  }
+ });
+}
+
+function rollDice() {
+
+ let dice = Math.floor(Math.random()*6)+1;
+
+ let next = positions[player]+dice;
+
+ if(next<=100) {
+  positions[player] = jumps[next] || next;
+ }
+
+ display();
+
+ if(positions[player]===100) {
+  document.getElementById("status").innerText =
+  "Player "+(player+1)+" Wins!";
+  return;
+ }
+
+ player = 1-player;
+
+ document.getElementById("status").innerText =
+ "Dice: "+dice+" | Player "+(player+1)+" Turn";
+}
+
+display();
 </script>
+
 </body>
 </html>
